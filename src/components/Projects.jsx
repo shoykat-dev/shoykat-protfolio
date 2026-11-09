@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { wpProjects } from '../data/content'
 import SectionHead from './SectionHead'
 import Icon from './Icons'
@@ -24,23 +24,59 @@ function ProjectCard({ project }) {
 }
 
 export default function Projects() {
-  const [currentSlide, setCurrentSlide] = useState(0)
+  const count = wpProjects.length // 12
+  // Triple the list for a seamless infinite loop in both directions
+  const extendedProjects = [...wpProjects, ...wpProjects, ...wpProjects]
+
+  // Start at the middle set (index 12)
+  const [currentIndex, setCurrentIndex] = useState(count)
+  const [isTransitioning, setIsTransitioning] = useState(true)
+  const [isPaused, setIsPaused] = useState(false)
   const touchStartX = useRef(null)
 
-  // 12 projects: Slide 1 (1-6), Slide 2 (7-12)
-  const slides = [
-    wpProjects.slice(0, 6),
-    wpProjects.slice(6, 12),
-  ]
+  // Auto-slide every 5.5 seconds (between 5-6s), one card at a time
+  useEffect(() => {
+    if (isPaused) return
 
-  const totalSlides = slides.length
+    const timer = setInterval(() => {
+      setIsTransitioning(true)
+      setCurrentIndex((prev) => prev + 1)
+    }, 5500)
+
+    return () => clearInterval(timer)
+  }, [isPaused])
+
+  // Seamless reset without transition when wrapping around
+  const handleTransitionEnd = () => {
+    if (currentIndex >= count * 2) {
+      setIsTransitioning(false)
+      setCurrentIndex((prev) => prev - count)
+    } else if (currentIndex < count) {
+      setIsTransitioning(false)
+      setCurrentIndex((prev) => prev + count)
+    }
+  }
+
+  // Re-enable transition on the next frame after silent reset
+  useEffect(() => {
+    if (!isTransitioning) {
+      const raf = requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setIsTransitioning(true)
+        })
+      })
+      return () => cancelAnimationFrame(raf)
+    }
+  }, [isTransitioning])
 
   const handlePrev = () => {
-    setCurrentSlide((prev) => Math.max(0, prev - 1))
+    setIsTransitioning(true)
+    setCurrentIndex((prev) => prev - 1)
   }
 
   const handleNext = () => {
-    setCurrentSlide((prev) => Math.min(totalSlides - 1, prev + 1))
+    setIsTransitioning(true)
+    setCurrentIndex((prev) => prev + 1)
   }
 
   const handleTouchStart = (e) => {
@@ -67,13 +103,18 @@ export default function Projects() {
           sub="Twelve WordPress sites built with Elementor — custom designs crafted for diverse business needs."
         />
 
-        <div className="projects-slider reveal">
+        <div
+          className="projects-slider reveal"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onFocus={() => setIsPaused(true)}
+          onBlur={() => setIsPaused(false)}
+        >
           <button
             type="button"
             className="projects-slider__arrow projects-slider__arrow--prev"
             onClick={handlePrev}
-            disabled={currentSlide === 0}
-            aria-label="Previous slide"
+            aria-label="Previous project"
           >
             <Icon name="arrowLeft" />
           </button>
@@ -85,19 +126,20 @@ export default function Projects() {
           >
             <div
               className="projects-slider__track"
-              style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+              onTransitionEnd={handleTransitionEnd}
+              style={{
+                '--slide-index': currentIndex,
+                transition: isTransitioning
+                  ? 'transform 0.65s cubic-bezier(0.22, 1, 0.36, 1)'
+                  : 'none',
+              }}
             >
-              {slides.map((slideProjects, slideIdx) => (
+              {extendedProjects.map((project, idx) => (
                 <div
-                  className="projects-slider__slide"
-                  key={slideIdx}
-                  aria-hidden={currentSlide !== slideIdx}
+                  className="projects-slider__item"
+                  key={`${project.title}-${idx}`}
                 >
-                  <div className="projects-grid">
-                    {slideProjects.map((project) => (
-                      <ProjectCard key={project.title} project={project} />
-                    ))}
-                  </div>
+                  <ProjectCard project={project} />
                 </div>
               ))}
             </div>
@@ -107,8 +149,7 @@ export default function Projects() {
             type="button"
             className="projects-slider__arrow projects-slider__arrow--next"
             onClick={handleNext}
-            disabled={currentSlide === totalSlides - 1}
-            aria-label="Next slide"
+            aria-label="Next project"
           >
             <Icon name="arrowRight" />
           </button>
