@@ -196,6 +196,25 @@
   }
 }
 
+@media (max-width: 640px) {
+  .projects-slider__arrow {
+    width: 42px;
+    height: 42px;
+    top: clamp(86px, 26vw, 115px);
+    transform: translateY(-50%);
+  }
+  .projects-slider__arrow svg {
+    width: 18px;
+    height: 18px;
+  }
+  .projects-slider__arrow--prev {
+    left: 10px;
+  }
+  .projects-slider__arrow--next {
+    right: 10px;
+  }
+}
+
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   .projects-slider__track {

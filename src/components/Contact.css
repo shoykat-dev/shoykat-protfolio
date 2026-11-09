@@ -338,6 +338,12 @@ a.contact__linkedin:hover {
 }
 
 @media (max-width: 520px) {
+  .contact__panel {
+    padding: 18px 14px;
+  }
+  .contact__form {
+    padding: 22px 14px;
+  }
   .field-row {
     grid-template-columns: 1fr;
   }
