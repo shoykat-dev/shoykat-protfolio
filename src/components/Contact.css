@@ -224,7 +224,7 @@ a.contact__linkedin:hover {
   display: grid;
   gap: 18px;
   padding: clamp(24px, 3vw, 36px);
-  align-content: start;
+  align-content: center;
 }
 
 .contact__form-head h3 {
