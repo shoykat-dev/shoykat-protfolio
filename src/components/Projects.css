@@ -1,0 +1,286 @@
+/* =====================================================================
+   PROJECTS — two auto-moving marquee rows (no arrows, no dots).
+   Row 1 moves left-to-right, Row 2 moves right-to-left.
+   Each row renders its 6 cards twice; the track translates exactly
+   -50% (one full set) so the loop is seamless.
+   Card width is CSS-only:
+     desktop (>1180px)  3 visible — 380px cards fill the 1184px container
+     tablet (761-1180px) 2 visible — half the viewport minus gutter/gap
+     mobile (<=760px)   1 visible — full viewport minus gutter
+   Each card shows the site's FULL PAGE inside a fixed-height window:
+   on hover the screenshot glides from the top to the footer, at a
+   steady speed (duration per card comes from the image height,
+   --shot-dur, set inline in Projects.jsx).
+   On touch devices there is no hover, so the preview scrolls by
+   itself, slowly, down and back up.
+   ===================================================================== */
+
+.marquee + .marquee {
+  margin-top: var(--card-gap);
+}
+
+.projects__note {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 13.5px;
+  color: var(--dim);
+}
+
+/* ---------- marquee ---------- */
+.marquee {
+  --card-w: 380px;
+  overflow: hidden;
+  /* soft fade at both edges so cards glide in/out */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+  /* pause affordance: the row is a live strip, hover stops it */
+  padding-block: 4px;
+  margin-block: -4px;
+}
+
+.marquee__track {
+  display: flex;
+  gap: var(--card-gap);
+  width: max-content;
+  will-change: transform;
+  animation: marquee-scroll 84s linear infinite;
+}
+
+/* Row 1: left-to-right (reverse of the 0 -> -50% keyframes). */
+.marquee--ltr .marquee__track {
+  animation-direction: reverse;
+}
+
+/* Row 2: right-to-left. */
+.marquee--rtl .marquee__track {
+  animation-direction: normal;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Hovering / focusing a row pauses THAT row only. */
+.marquee:hover .marquee__track,
+.marquee:focus-within .marquee__track {
+  animation-play-state: paused;
+}
+
+.marquee__item {
+  flex: 0 0 var(--card-w);
+  display: flex;
+  min-width: 0;
+}
+
+/* ---------- project card ---------- */
+.card {
+  flex: 1 1 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: linear-gradient(170deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.012));
+  overflow: hidden;
+  transition: border-color 0.35s var(--ease), transform 0.35s var(--ease),
+    box-shadow 0.35s var(--ease);
+}
+
+.card:hover {
+  border-color: var(--line-strong);
+  transform: translateY(-4px);
+  box-shadow: 0 30px 60px -45px rgba(34, 211, 238, 0.7);
+}
+
+/* The window the full page scrolls inside. --shot-h must match the
+   translateY calc below, so both live on this element. */
+.card__media {
+  --shot-h: 300px;
+  position: relative;
+  height: var(--shot-h);
+  overflow: hidden;
+  background: #060c1b;
+  border-bottom: 1px solid var(--line);
+}
+
+.card__media img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  display: block;
+  will-change: transform;
+  transition: transform var(--shot-dur, 6s) linear;
+}
+
+/* Hover: the whole page glides up until its footer reaches the window. */
+.card:hover .card__media img {
+  transform: translateY(calc(-100% + var(--shot-h)));
+}
+
+.card__category {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(5, 12, 26, 0.78);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(8px);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+/* Small hint so visitors discover the scroll; hides while scrolling. */
+.card__scroll-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(5, 12, 26, 0.82);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(8px);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  color: #d7e6f7;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 0.3s var(--ease);
+}
+
+.card:hover .card__scroll-hint {
+  opacity: 0;
+}
+
+.card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: var(--card-pad);
+  flex: 1;
+}
+
+.card__kind {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.card__kind--client {
+  color: var(--cyan);
+}
+
+.card__title {
+  font-size: clamp(17px, 1.8vw, 20px);
+}
+
+.card__text {
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+
+.card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 6px;
+}
+
+.card__tags li {
+  padding: 5px 11px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: rgba(34, 211, 238, 0.05);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #b8d3f2;
+}
+
+.card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* ---------- responsive card widths ---------- */
+
+/* Tablet: 2 cards visible. */
+@media (max-width: 1180px) {
+  .marquee {
+    --card-w: calc((100vw - 2 * var(--gutter) - var(--card-gap)) / 2);
+  }
+  .marquee__track {
+    animation-duration: 64s;
+  }
+}
+
+/* Mobile: 1 card visible, full width; slightly shorter window. */
+@media (max-width: 760px) {
+  .marquee {
+    --card-w: calc(100vw - 2 * var(--gutter));
+  }
+  .marquee__track {
+    animation-duration: 56s;
+  }
+  .marquee + .marquee {
+    margin-top: 40px;
+  }
+  .card__media {
+    --shot-h: 260px;
+  }
+}
+
+/* Touch devices: no hover, so the preview scrolls by itself —
+   down to the footer and back up, slowly, forever. The strip
+   keeps moving; a tap on a card still lifts it. */
+@media (hover: none) {
+  .card:hover {
+    transform: none;
+  }
+  .card__media img {
+    animation: shot-scroll calc(var(--shot-dur, 6s) * 2) ease-in-out infinite
+      alternate;
+  }
+  .card__scroll-hint {
+    display: none;
+  }
+}
+
+@keyframes shot-scroll {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% + var(--shot-h)));
+  }
+}
+
+/* Reduced motion: no auto movement at all. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track {
+    animation: none !important;
+  }
+  .card__media img {
+    animation: none !important;
+    transition: none !important;
+  }
+  .card:hover .card__media img {
+    transform: none;
+  }
+}

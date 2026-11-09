@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 560" width="880" height="560" role="img" aria-label="landing project preview">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#070d1e"/><stop offset="1" stop-color="#0a1730"/>
+    </linearGradient>
+    <linearGradient id="acc" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="soft" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1e3a68" stop-opacity=".85"/><stop offset="1" stop-color="#0d1b34" stop-opacity=".85"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#22d3ee" stop-opacity=".22"/><stop offset="1" stop-color="#22d3ee" stop-opacity="0"/></radialGradient>
+    <radialGradient id="glow" cx="50%" cy="0%" r="75%">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity=".30"/><stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="880" height="560" fill="url(#bg)"/>
+  <rect width="880" height="560" fill="url(#glow)"/>
+  <rect x="28" y="26" width="824" height="508" rx="18" fill="#060c1b" stroke="#1b2b4d"/>
+  <rect x="28" y="26" width="824" height="44" rx="18" fill="#0b1426"/>
+  <rect x="28" y="60" width="824" height="12" fill="#0b1426"/>
+  <circle cx="54" cy="48" r="5" fill="#1f3358"/><circle cx="72" cy="48" r="5" fill="#1f3358"/><circle cx="90" cy="48" r="5" fill="#1f3358"/>
+  <rect x="112" y="40" width="300" height="16" rx="8" fill="#101d36"/>
+  
+<text x="124" y="53" font-family="monospace" font-size="11" fill="#48648f">product-launch.io</text><ellipse cx="440.0" cy="150" rx="320" ry="150" fill="url(#halo)"/><rect x="370.0" y="102" width="140" height="22" rx="11" fill="#16233f" opacity="1"/><rect x="210.0" y="142" width="460" height="22" rx="11" fill="#2b4a7e" opacity="1"/><rect x="280.0" y="178" width="320" height="22" rx="11" fill="#2b4a7e" opacity="1"/><rect x="240.0" y="220" width="400" height="10" rx="6" fill="#18294a" opacity="1"/><rect x="300.0" y="242" width="280" height="10" rx="6" fill="#18294a" opacity="1"/><rect x="290.0" y="278" width="140" height="40" rx="20" fill="url(#acc)"/><rect x="444.0" y="278" width="140" height="40" rx="20" fill="none" stroke="#2b4a7e"/><rect x="74" y="356" width="222" height="136" rx="12" fill="url(#soft)" stroke="#20365e"/><rect x="94" y="378" width="30" height="30" rx="9" fill="url(#acc)" opacity=".8"/><rect x="94" y="424" width="120" height="10" rx="6" fill="#25406e" opacity="1"/><rect x="94" y="444" width="168" height="9" rx="6" fill="#18294a" opacity="1"/><rect x="94" y="462" width="130" height="9" rx="6" fill="#18294a" opacity="1"/><rect x="320" y="356" width="222" height="136" rx="12" fill="url(#soft)" stroke="#20365e"/><rect x="340" y="378" width="30" height="30" rx="9" fill="url(#acc)" opacity=".8"/><rect x="340" y="424" width="120" height="10" rx="6" fill="#25406e" opacity="1"/><rect x="340" y="444" width="168" height="9" rx="6" fill="#18294a" opacity="1"/><rect x="340" y="462" width="130" height="9" rx="6" fill="#18294a" opacity="1"/><rect x="566" y="356" width="222" height="136" rx="12" fill="url(#soft)" stroke="#20365e"/><rect x="586" y="378" width="30" height="30" rx="9" fill="url(#acc)" opacity=".8"/><rect x="586" y="424" width="120" height="10" rx="6" fill="#25406e" opacity="1"/><rect x="586" y="444" width="168" height="9" rx="6" fill="#18294a" opacity="1"/><rect x="586" y="462" width="130" height="9" rx="6" fill="#18294a" opacity="1"/></svg>

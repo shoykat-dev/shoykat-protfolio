@@ -1,0 +1,359 @@
+/* ---------- featured panel wrapping the whole section ---------- */
+.contact__panel {
+  position: relative;
+  padding: clamp(22px, 3.4vw, 44px);
+  border-radius: calc(var(--radius) + 8px);
+  border: 1px solid var(--line-strong);
+  background:
+    radial-gradient(640px 340px at 88% -10%, rgba(59, 130, 246, 0.16), transparent 65%),
+    radial-gradient(520px 300px at -6% 108%, rgba(34, 211, 238, 0.1), transparent 65%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.012));
+  box-shadow: 0 30px 80px -40px rgba(2, 6, 18, 0.9);
+  overflow: hidden;
+}
+
+.contact__glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(420px 200px at 50% -8%, rgba(34, 211, 238, 0.12), transparent 70%);
+}
+
+.contact__panel .contact__grid {
+  position: relative;
+}
+
+.contact__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(26px, 4vw, 64px);
+  align-items: stretch;
+}
+
+/* ---------- left column ---------- */
+.contact__info {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+
+.contact__avail {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 18px 20px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(245, 181, 68, 0.35);
+  background: linear-gradient(160deg, rgba(245, 181, 68, 0.08), rgba(255, 255, 255, 0.015));
+}
+
+.contact__avail-dot {
+  width: 10px;
+  height: 10px;
+  flex: none;
+  margin-top: 6px;
+  border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 0 0 rgba(245, 181, 68, 0.5);
+  animation: contact-ping 2s infinite;
+}
+
+@keyframes contact-ping {
+  0% {
+    box-shadow: 0 0 0 0 rgba(245, 181, 68, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(245, 181, 68, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(245, 181, 68, 0);
+  }
+}
+
+.contact__avail strong {
+  font-family: var(--font-display);
+  font-size: 15.5px;
+  color: var(--text);
+}
+
+.contact__avail p {
+  margin-top: 3px;
+  font-size: 14px;
+}
+
+/* ---------- detail + LinkedIn cards ---------- */
+.contact__details {
+  display: grid;
+  gap: 12px;
+}
+
+.contact__detail,
+.contact__linkedin {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.022);
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease),
+    transform 0.25s var(--ease);
+}
+
+a.contact__detail:hover,
+a.contact__linkedin:hover {
+  border-color: var(--line-strong);
+  background: rgba(34, 211, 238, 0.05);
+  transform: translateY(-2px);
+}
+
+.contact__detail-icon,
+.contact__linkedin-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex: none;
+  border-radius: 13px;
+  color: var(--cyan);
+  background: rgba(34, 211, 238, 0.09);
+  border: 1px solid rgba(34, 211, 238, 0.2);
+}
+
+.contact__detail-icon svg,
+.contact__linkedin-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.contact__linkedin-icon {
+  color: #fff;
+  background: var(--accent-grad);
+  border-color: transparent;
+  box-shadow: 0 8px 20px -8px rgba(59, 130, 246, 0.7);
+}
+
+.contact__detail-text,
+.contact__linkedin-text {
+  display: grid;
+  gap: 3px;
+  font-size: 15px;
+  color: #dce8ff;
+  min-width: 0;
+}
+
+.contact__detail-text a {
+  transition: color 0.25s var(--ease);
+  overflow-wrap: anywhere;
+}
+
+.contact__detail-text a:hover {
+  color: var(--cyan);
+}
+
+.contact__detail-label,
+.contact__linkedin-text span {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.contact__linkedin-text strong {
+  font-family: var(--font-display);
+  font-size: 15.5px;
+  color: var(--text);
+}
+
+.contact__detail-arrow {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  margin-left: auto;
+  color: var(--dim);
+}
+
+/* ---------- "what to include" card ---------- */
+.contact__include {
+  padding: 18px 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.022);
+}
+
+.contact__include h3 {
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+.contact__include ul {
+  display: grid;
+  gap: 10px;
+}
+
+.contact__include li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.contact__include li svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  margin-top: 2px;
+  color: var(--cyan);
+}
+
+/* ---------- action buttons ---------- */
+.contact__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.contact__actions .btn {
+  flex: 1 1 auto;
+}
+
+/* ---------- form ---------- */
+.contact__form {
+  display: grid;
+  gap: 18px;
+  padding: clamp(24px, 3vw, 36px);
+  align-content: start;
+}
+
+.contact__form-head h3 {
+  font-size: clamp(19px, 2vw, 22px);
+}
+
+.contact__form-head p {
+  margin-top: 6px;
+  font-size: 14.5px;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+/* Honeypot field — sadharon user ke kokhono dekhabe na, shudhu spam
+   bot der jonno trap. display:none use kora hoyni karon kichu bot
+   sheita detect kore skip kore jay — eibhabe hide kora safer. */
+.field--honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.field > span {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 13px 15px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: rgba(4, 9, 20, 0.6);
+  color: var(--text);
+  font-size: 14.5px;
+  font-family: var(--font-body);
+  resize: vertical;
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease),
+    box-shadow 0.25s var(--ease);
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: #4b5c78;
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: rgba(34, 211, 238, 0.55);
+  background: rgba(8, 16, 32, 0.9);
+  box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.09);
+}
+
+.field em {
+  font-style: normal;
+  font-size: 12.5px;
+  color: #ff8095;
+}
+
+.contact__submit {
+  justify-self: start;
+  margin-top: 4px;
+}
+
+.contact__submit--full {
+  justify-self: stretch;
+  width: 100%;
+}
+
+.contact__privacy {
+  margin-top: -8px;
+  font-size: 12.5px;
+  color: var(--dim);
+  text-align: center;
+}
+
+.contact__status {
+  font-size: 13.5px;
+  margin-top: -4px;
+}
+
+.contact__status--done {
+  color: #6ee7a8;
+}
+
+.contact__status--error {
+  color: #ff8095;
+}
+
+@media (max-width: 880px) {
+  .contact__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .field-row {
+    grid-template-columns: 1fr;
+  }
+  .contact__actions {
+    flex-direction: column;
+  }
+  .contact__actions .btn {
+    width: 100%;
+  }
+  .contact__submit {
+    justify-self: stretch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact__avail-dot {
+    animation: none;
+  }
+}

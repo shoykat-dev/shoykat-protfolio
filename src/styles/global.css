@@ -1,0 +1,470 @@
+/* =====================================================================
+   GLOBAL TOKENS + BASE
+   Color, spacing, typography — sob ekhane. Ekhane change korle
+   pura site er look change hobe.
+
+   RESPONSIVE STRATEGY:
+   1) Beshirvag spacing/type `clamp()` diye fluid — screen jokhon
+      choto-boro hoy, value nijei smoothly scale kore.
+   2) Tar upore breakpoint-wise fine-tuning ache (1400 / 1180 / 960 /
+      780 / 640 / 480 / 360px) — jate kono device e layout bhenge
+      na jay ba awkward gap na thake.
+   ===================================================================== */
+
+:root {
+  /* ---- colors ---- */
+  --bg: #050914;
+  --bg-2: #070e1f;
+  --panel: rgba(255, 255, 255, 0.028);
+  --panel-solid: #0a1122;
+  --line: rgba(120, 165, 230, 0.14);
+  --line-strong: rgba(120, 175, 255, 0.28);
+
+  --text: #f2f6ff;
+  --muted: #a6b6d4;
+  --dim: #7b8eaf;
+
+  --cyan: #22d3ee;
+  --blue: #3b82f6;
+  --accent-grad: linear-gradient(120deg, #22d3ee 0%, #3b82f6 55%, #6366f1 100%);
+  --accent-soft: rgba(34, 211, 238, 0.12);
+
+  /* Warm amber — SPARING use only: availability badge, hero stat
+     numbers, primary-CTA hover glow. Never large amber areas. */
+  --amber: #f5b544;
+  --amber-soft: rgba(245, 181, 68, 0.12);
+
+  /* ---- layout rhythm (ek jaygay control, sob breakpoint e fluid) ---- */
+  --container: 1280px;
+  --gutter: clamp(18px, 5vw, 48px);
+  --section-space: clamp(56px, 9vw, 132px);
+  --block-gap: clamp(26px, 4.4vw, 60px);
+  --card-gap: clamp(14px, 1.6vw, 22px);
+  --card-pad: clamp(18px, 2.4vw, 30px);
+  --radius: 18px;
+  --radius-sm: 12px;
+
+  /* ---- type ---- */
+  --font-display: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* phone er notch / home-bar er jonno safe area (iPhone ityadi) */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* ---------- reset ---------- */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  max-width: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* sticky navbar er niche anchor jano hide na hoy */
+  scroll-padding-top: 92px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  /* mobile e tap korle blue highlight box ashe, oita off */
+  -webkit-tap-highlight-color: transparent;
+}
+
+body.is-loading {
+  overflow: hidden;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  color: var(--text);
+  line-height: 1.12;
+  letter-spacing: -0.028em;
+  margin: 0;
+  font-weight: 700;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+  color: var(--muted);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+img,
+svg {
+  max-width: 100%;
+  display: block;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+::selection {
+  background: rgba(34, 211, 238, 0.3);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ---------- page background layers ---------- */
+.app {
+  position: relative;
+  min-height: 100svh;
+  isolation: isolate;
+  overflow-x: clip;
+}
+
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(900px 600px at 78% -8%, rgba(59, 130, 246, 0.22), transparent 60%),
+    radial-gradient(700px 520px at 6% 12%, rgba(34, 211, 238, 0.13), transparent 62%),
+    linear-gradient(180deg, #050914 0%, #060c1c 45%, #050a16 100%);
+}
+
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: linear-gradient(rgba(140, 180, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(140, 180, 255, 0.045) 1px, transparent 1px);
+  background-size: 68px 68px;
+  mask-image: radial-gradient(circle at 50% 0%, #000 0%, transparent 72%);
+  -webkit-mask-image: radial-gradient(circle at 50% 0%, #000 0%, transparent 72%);
+}
+
+/* scroll progress line (top) */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  transform-origin: 0 50%;
+  background: var(--accent-grad);
+  z-index: 120;
+  opacity: 0.9;
+}
+
+/* ---------- layout ---------- */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Ek-i padding shob section e — kom-beshi hobe na */
+.section {
+  padding-block: var(--section-space);
+  position: relative;
+}
+
+.section + .section {
+  border-top: 1px solid rgba(120, 165, 230, 0.07);
+}
+
+/* ---------- section heading ---------- */
+.section-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: var(--block-gap);
+}
+
+.section-head__text {
+  max-width: 620px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 18px;
+}
+
+.eyebrow::before {
+  content: '';
+  width: 22px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cyan));
+}
+
+.section-title {
+  font-size: clamp(26px, 4.2vw, 46px);
+  font-weight: 700;
+}
+
+.section-sub {
+  margin-top: 16px;
+  font-size: clamp(14.5px, 1.4vw, 17px);
+  max-width: 56ch;
+}
+
+/* ---------- surfaces ---------- */
+.glass {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 13px 22px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-family: var(--font-display);
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  background: none;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease),
+    background 0.25s var(--ease), border-color 0.25s var(--ease), color 0.25s var(--ease);
+}
+
+.btn svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
+.btn--primary {
+  background: var(--accent-grad);
+  color: #04101f;
+  box-shadow: 0 10px 30px -12px rgba(34, 211, 238, 0.75);
+}
+
+.btn--primary:hover {
+  transform: translateY(-2px);
+  /* Amber hover glow — the only amber use on a CTA. */
+  box-shadow: 0 18px 40px -14px rgba(245, 181, 68, 0.55),
+    0 10px 30px -12px rgba(34, 211, 238, 0.5);
+}
+
+.btn--ghost {
+  border-color: var(--line-strong);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.btn--ghost:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  transform: translateY(-2px);
+}
+
+.btn--text {
+  padding: 13px 6px;
+  color: var(--muted);
+}
+
+.btn--text:hover {
+  color: var(--cyan);
+}
+
+.btn--sm {
+  padding: 9px 16px;
+  font-size: 13px;
+}
+
+/* touch device e hover-based lift effect off (finger e "stuck hover"
+   dhore rakhe emon problem hoy na) */
+@media (hover: none) {
+  .btn--primary:hover,
+  .btn--ghost:hover {
+    transform: none;
+  }
+}
+
+/* ---------- scroll reveal ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- scrollbar (desktop/mouse device only) ---------- */
+@media (min-width: 900px) and (hover: hover) {
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #050914;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #16294b;
+    border-radius: 999px;
+    border: 3px solid #050914;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #1f3c6d;
+  }
+}
+
+/* =====================================================================
+   BREAKPOINTS
+   Onek website 1-2 ta breakpoint use kore, tai majhe majhe boro
+   tablet ba choto laptop e layout ajob dekhay. Ei site e 6 ta
+   breakpoint ache, tai protita device e smooth dekhabe.
+   ===================================================================== */
+
+/* ---- 1180px kom (small laptop / large tablet landscape) ---- */
+@media (max-width: 1180px) {
+  :root {
+    --gutter: clamp(18px, 4.4vw, 40px);
+  }
+}
+
+/* ---- 960px kom (tablet portrait) : onek component eikhane
+   2-column theke 1-column e switch kore (component er nijer CSS e) ---- */
+@media (max-width: 960px) {
+  :root {
+    --section-space: clamp(52px, 8vw, 96px);
+    --block-gap: clamp(22px, 5vw, 40px);
+  }
+}
+
+/* ---- 780px kom (boro mobile / choto tablet) ---- */
+@media (max-width: 780px) {
+  .section-title {
+    font-size: clamp(24px, 6vw, 34px);
+  }
+}
+
+/* ---- 640px kom (mobile) ---- */
+@media (max-width: 640px) {
+  :root {
+    --section-space: 52px;
+    --block-gap: 24px;
+    --card-gap: 14px;
+    --card-pad: 18px;
+  }
+
+  .section-head {
+    gap: 10px;
+  }
+
+  /* mobile e button gulor tap area ektu boro rakhi (finger friendly) */
+  .btn {
+    padding: 13px 20px;
+  }
+}
+
+/* ---- 480px kom (choto mobile — iPhone SE, Android budget phone) ---- */
+@media (max-width: 480px) {
+  html {
+    scroll-padding-top: 76px;
+  }
+  :root {
+    --gutter: 16px;
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+  body {
+    font-size: 15px;
+  }
+}
+
+/* ---- 360px kom (khub choto/purono phone) ---- */
+@media (max-width: 360px) {
+  :root {
+    --gutter: 14px;
+  }
+}
+
+/* ---- notch / home-indicator thaka phone (iPhone X+) ---- */
+@supports (padding: max(0px)) {
+  .nav__inner {
+    padding-top: max(0px, var(--safe-top));
+  }
+  .footer__base {
+    padding-bottom: max(22px, calc(22px + var(--safe-bottom)));
+  }
+}
+
+/* ---- landscape mobile (kom height, beshi width) — section space
+   khub beshi hoye scroll onek lomba na hoye jay ---- */
+@media (max-width: 900px) and (max-height: 480px) and (orientation: landscape) {
+  :root {
+    --section-space: 40px;
+  }
+}
