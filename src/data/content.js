@@ -135,16 +135,7 @@ export const experience = [
 ]
 
 /* ---------------------------------------------------------------------
-   PROJECTS — 12 WordPress sites (Sabbir, 2026-11-09).
-   - Every site verified live + WordPress + Elementor (HTML checked);
-     WooCommerce tag only where the plugin marker was found in the HTML.
-   - shot: full-page screenshot slug in src/assets/projects/full/
-     (900px wide JPEG); shotH is its height at that width — used for
-     the hover-scroll duration.
-   - demo: the REAL live URL for each site (given by Sabbir).
-   - Descriptions describe what the site IS (from its own title /
-     content) — no invented claims about who built what.
-   - Layout: 2 columns x 6 cards (Projects.jsx splits this list in half).
+   PROJECTS — 12 Demo Website Projects
    --------------------------------------------------------------------- */
 export const wpProjects = [
   {
